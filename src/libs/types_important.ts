@@ -9,6 +9,7 @@ export interface deepSearchData {
 }
 
 export interface Repo {
+  server: number;
   avatar_url: string;
   name: string;
   full_name: string;

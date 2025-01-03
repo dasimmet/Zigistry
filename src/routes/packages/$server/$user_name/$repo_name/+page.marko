@@ -10,9 +10,9 @@ static const package_database: Repo[] = [
 ];
 $ const repoPromise: Promise<Repo> = new Promise(async (resolve, reject) => {
   const repositories = [...package_database];
-  const { user_name, repo_name } = $global.params;
+  const { server, user_name, repo_name } = $global.params;
   const repoPath = `${user_name}/${repo_name}`;
-  const repository = repositories.find((repo) => repo.full_name === repoPath);
+  const repository = repositories.find((repo) => repo.full_name === repoPath && repo.server === parseInt(server));
 
   if (!repository) {
     return reject("/404");
@@ -63,6 +63,7 @@ $ const repoPromise: Promise<Repo> = new Promise(async (resolve, reject) => {
   }
 
   const compressedRepo: Repo = {
+    server: repository.server,
     contentIsCorrect: true,
     name: repository.name,
     full_name: repository.full_name,

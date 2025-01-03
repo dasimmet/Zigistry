@@ -21,7 +21,7 @@ export async function fetchReadmeContent(repo: Repo): Promise<string> {
         }
       }
     }
-  } catch (_) {}
+  } catch (_) { }
   return "404";
 }
 
@@ -30,7 +30,7 @@ export function numberAsLetters(i: number): string {
   if (numberAsString.length > 3) return (i / 1000).toString().slice(0, 3) + "K";
   else return numberAsString;
 }
-export function formatNumber(num: number) {
+export function formatNumber(num: number): string {
   if (num >= 1_000_000) {
     return (num / 1_000_000).toFixed(1).replace(/\.0$/, "") + "m";
   } else if (num >= 1_000) {
@@ -83,4 +83,28 @@ export async function convert2markdown(x: string): Promise<string> {
   );
 
   return content;
+}
+
+export function RepoUrl(repo: Repo): string {
+  switch (repo.server) {
+    case 0:
+      return "https://github.com/" + repo.full_name;
+    case 1:
+      return "https://codeberg.org/" + repo.full_name;
+    case 2:
+      return "https://gitlab.com/" + repo.full_name;
+    default: throw new Error("Unknown Server");
+  }
+}
+
+export function ServerName(repo: Repo): string {
+  switch (repo.server) {
+    case 0:
+      return "GitHub";
+    case 1:
+      return "Codeberg";
+    case 2:
+      return "GitLab";
+    default: throw new Error("Unknown Server");
+  }
 }
