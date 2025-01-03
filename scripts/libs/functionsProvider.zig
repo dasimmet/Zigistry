@@ -400,7 +400,8 @@ test "print" {
 
 test "fetchNormal" {
     const file_contents = @embedFile("./test.json");
-    const res = fetchNormal(std.heap.page_allocator, "https://raw.githubusercontent.com/RohanVashisht1234/zigistry/main/scripts/libs/test.json");
+    const res = fetchNormal(std.testing.allocator, "https://raw.githubusercontent.com/RohanVashisht1234/zigistry/main/scripts/libs/test.json");
+    defer std.testing.allocator.free(res);
     std.debug.assert(std.mem.eql(u8, file_contents, res));
 }
 
@@ -415,7 +416,7 @@ test "printJsonInt" {
 }
 
 test "replace" {
-    const alloc = std.heap.page_allocator;
+    const alloc = std.testing.allocator;
     const result = replace(alloc, "Hello", 'l', 'o');
     defer alloc.free(result);
     print("{s}", .{result});
