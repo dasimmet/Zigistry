@@ -6,6 +6,7 @@ const gitlab_url = "https://gitlab.com/api/v4/projects?order_by=last_activity_at
 
 pub fn main() !void {
     var iter = hp.GitlabApi.Iterator.init(allocator, gitlab_url);
+    defer iter.deinit();
     hp.print("[", .{});
     while (try iter.next()) |res| {
         defer allocator.free(res);

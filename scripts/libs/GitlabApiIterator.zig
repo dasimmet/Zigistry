@@ -15,7 +15,7 @@ pub fn init(allocator: std.mem.Allocator, url: []const u8) GitlabPaginationItera
 }
 
 pub fn deinit(self: *GitlabPaginationIterator) void {
-    if (self.url_owned) self.allocator.free(self.url);
+    if (self.url_owned)  if (self.url) |url| self.allocator.free(url);
 }
 
 pub fn next(self: *GitlabPaginationIterator) !?[]const u8 {
